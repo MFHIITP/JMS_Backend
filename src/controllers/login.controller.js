@@ -3,6 +3,8 @@ import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../index.js";
 import tokenschema from "../models/Token.model.js";
 import historyschema from "../models/History.model.js";
+import dotenv from 'dotenv'
+dotenv.config();
 const loginaction = async (req, res) => {
   const mail = await collection.find({ email: req.body.email });
   if (mail.length === 0) {
@@ -61,17 +63,17 @@ const loginaction = async (req, res) => {
         year: mail[0].year,
         department: mail[0].department,
       };
+      const isProduction = process.env.NODE_ENV === 'production';
+      console.log(isProduction);
       res.status(200).cookie('Token', token, {
-        httpOnly: true,
-        secure: true,
-        domain: 'localhost',
-        path: '/',
-        sameSite: 'None',
+        httpOnly: false,
+        secure: isProduction,
+        sameSite: isProduction ? 'None' : 'Lax',
         maxAge: 24 * 60 * 60 * 1000
       }).cookie('ProfileInfo', profiles, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'None',
+        httpOnly: false,
+        secure: isProduction,
+        sameSite: isProduction ? 'None' : 'Lax',
         maxAge: 24 * 60 * 60 * 1000
       }).json({
         message: "OK",
@@ -83,3 +85,4 @@ const loginaction = async (req, res) => {
 };
 
 export default loginaction
+

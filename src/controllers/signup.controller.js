@@ -2,6 +2,8 @@ import crypto from 'crypto'
 import { collection } from '../models/collection.model.js';
 import { sendRegistrationEmail } from '../utils/mailsend.utils.js';
 import { otpStore } from '../index.js';
+import dotenv from 'dotenv'
+dotenv.config()
 
 const signupaction = async (req, res) => {
   console.log(req.body.name + " came here");
@@ -16,7 +18,7 @@ const signupaction = async (req, res) => {
       data: data
     }
     await sendRegistrationEmail(
-      "jumathsociety@gmail.com",
+      process.env.GMAIL_USER,
       req.body.email,
       "Jadavpur Mathematics Society -- OTP Verification",
       `Your One Time Password is ${otp}`

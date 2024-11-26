@@ -1,5 +1,7 @@
 import { otpStore } from "../index.js"
 import { sendRegistrationEmail } from "../utils/mailsend.utils.js";
+import dotenv from 'dotenv'
+dotenv.config()
 
 const otpVerify = async(req, res)=>{
     const data = otpStore[0].data;
@@ -7,7 +9,7 @@ const otpVerify = async(req, res)=>{
         delete otpStore[0];
         await data.save();
         await sendRegistrationEmail(
-            "jumathsociety@gmail.com",
+            process.env.GMAIL_USER,
             data.email,
             "Jadavpur Mathematics Society",
             "<div>Welcome to Jadavpur Mathematics Society. Wish you a very happy time at Jadavpur Mathemtics Society.</div><br><div>Regards,</div><div>Farshid Hossain</div><div>Secretary</div>"

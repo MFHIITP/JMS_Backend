@@ -1,11 +1,13 @@
 import nodemailer from "nodemailer";
+import dotenv from 'dotenv'
+dotenv.config();
 
 const sendRegistrationEmail = async (email_from, email_to, subject, body) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "jumathsociety@gmail.com",
-      pass: "yzoo hoot gfvt eujs",
+      user: process.env.GMAIL_USER,
+      pass: process.env.AUTH_PASS,
     },
     tls: {
       rejectUnauthorized: false,
