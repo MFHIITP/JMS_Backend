@@ -24,11 +24,13 @@ import historyuser from "./controllers/extras/Historyuser.controller.js"
 import updatelogouthistory from "./utils/nodecron.js";
 import checktoken from "./utils/Checktokens.js";
 import webSocketControl from "./utils/Websocket.utils.js";
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 const app = express();
 
 app.use(cors({ origin: true, credentials: true }));
+app.use(cookieParser());
 app.use(express.json());
 app.set("view-engine", "html");
 

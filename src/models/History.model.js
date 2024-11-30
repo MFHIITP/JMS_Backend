@@ -25,6 +25,12 @@ const Historymodel = mongoose.Schema({
         type: String, 
         enum: ['active', 'inactive'],
         default: 'active'
+    },
+    details: {
+        type: String,
+    },
+    locations: {
+        type: String
     }
 })
 const historyschema = mongoose.model('historyschema', Historymodel);

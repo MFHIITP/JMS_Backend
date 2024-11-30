@@ -24,6 +24,12 @@ const tokenSchema = mongoose.Schema({
         expires: "24h",
         required: true
     },
+    details: {
+        type: String,
+    },
+    locations: {
+        type: String
+    }
 })
 
 const tokenschema = mongoose.model('tokenschema', tokenSchema)

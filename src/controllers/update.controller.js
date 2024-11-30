@@ -5,11 +5,11 @@ const updatefunc = async(req, res)=>{
     const mail = await collection.find({email: req.body.email});
     const profiles = {
         name: mail[0].name,
-        email: mail[0].email,
+        email: mail[0].email, 
         college: mail[0].college,
         password: mail[0].password,
         year: mail[0].year,
-        branch: mail[0].department,
+        department: mail[0].department,
     }
     res.status(200).json({
         message: "OK",
