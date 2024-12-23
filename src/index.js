@@ -25,6 +25,7 @@ import updatelogouthistory from "./utils/nodecron.js";
 import checktoken from "./utils/Checktokens.js";
 import webSocketControl from "./utils/Websocket.utils.js";
 import cookieParser from 'cookie-parser';
+import requestIp from 'request-ip';
 
 dotenv.config();
 const app = express();
@@ -32,7 +33,9 @@ const app = express();
 app.use(cors({ origin: true, credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
+app.use(requestIp.mw());
 app.set("view-engine", "html");
+
 
 export const JWT_SECRET = process.env.JWT_SECRET;
 const port = 8000;
