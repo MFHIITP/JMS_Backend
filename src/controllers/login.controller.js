@@ -6,11 +6,18 @@ import historyschema from "../models/History.model.js";
 import dotenv from "dotenv";
 import axios from 'axios'
 import useragent from 'useragent'
+import asyncHandler from 'express-async-handler'
+
 dotenv.config();
-const loginaction = async (req, res) => {
+const loginaction = asyncHandler(async (req, res) => {
   const userdetails = useragent.parse(req.headers['user-agent'])
-  const ip = req.headers['x-forwarded-for']
-  const response = await axios.get(`https://ipinfo.io/${ip}/json?token=c13532365e8939`);
+  const ip = req.clientIp;
+  // console.log(req.clientIp);
+  // const response = await axios.get(`https://ipinfo.io/${ip}/json?token=c13532365e8939`);
+  let response={data: "localhost"}
+  if(ip!='::1'){
+    response = await axios.get(`https://ipinfo.io/${ip}/json?token=c13532365e8939`);
+  }
 
   const mail = await collection.find({ email: req.body.email });
   if (mail.length === 0) {
@@ -100,6 +107,6 @@ const loginaction = async (req, res) => {
         });
     }
   }
-};
+});
 
 export default loginaction;
