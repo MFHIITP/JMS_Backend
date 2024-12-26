@@ -6,12 +6,18 @@ import historyschema from "../models/History.model.js";
 import dotenv from "dotenv";
 import axios from 'axios'
 import useragent from 'useragent'
+import { response } from "express";
 dotenv.config();
 const loginaction = async (req, res) => {
   const userdetails = useragent.parse(req.headers['user-agent'])
-  const ip = req.headers['x-forwarded-for']
-  const response = await axios.get(`https://ipinfo.io/${ip}/json?token=c13532365e8939`);
-
+  const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  try {
+    const response = await axios.get(`https://ipinfo.io/${ip}/json?token=c13532365e8939`);
+  } catch (error) {
+    const response = {
+      data: 'Cannot fetch'
+    }
+  }
   const mail = await collection.find({ email: req.body.email });
   if (mail.length === 0) {
     res.status(400).json({
@@ -87,8 +93,6 @@ const loginaction = async (req, res) => {
         department: mail[0].department,
       };
       res
-        .setHeader("Access-Control-Allow-Origin", " http://localhost:3001")
-        .setHeader("Access-Control-Allow-Credentials", "true")
         .status(200)
         .cookie("TestCookie", token, {
           domain: '.localhost'
